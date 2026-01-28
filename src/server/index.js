@@ -1,0 +1,16 @@
+import express from 'express';
+import routes from '../routes/index.js';
+import ErrorHandler from '../middlewares/error.js';
+import 'dotenv/config';
+
+const app = express();
+
+app.use(express.json());
+app.use(routes);
+app.use(ErrorHandler);
+
+app.get('/', (req, res) => {
+  res.send({ message: 'OpenMusic API is running!' });
+});
+
+export default app;
