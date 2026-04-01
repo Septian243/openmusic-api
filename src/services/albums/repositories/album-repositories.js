@@ -20,7 +20,7 @@ class AlbumRepositories {
 
   async getAlbumById(id) {
     const query = {
-      text: 'SELECT id, name, year FROM albums WHERE id = $1',
+      text: 'SELECT id, name, year, cover_url as "coverUrl" FROM albums WHERE id = $1',
       values: [id],
     };
 
@@ -56,6 +56,26 @@ class AlbumRepositories {
 
     const result = await this.pool.query(query);
     return result.rows[0];
+  }
+
+  async updateAlbumCover(albumId, coverUrl) {
+    const query = {
+      text: 'UPDATE albums SET cover_url = $1 WHERE id = $2 RETURNING id',
+      values: [coverUrl, albumId],
+    }
+
+    const result = await this.pool.query(query);
+    return result.rows[0];
+  }
+
+  async getAlbumCoverUrl(albumId) {
+    const query = {
+      text: 'SELECT cover_url FROM albums WHERE id = $1',
+      values: [albumId],
+    }
+
+    const result = await this.pool.query(query);
+    return result.rows[0]?.cover_url;
   }
 }
 

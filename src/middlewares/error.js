@@ -1,6 +1,14 @@
 import { ClientError } from '../exceptions/index.js';
 
 const ErrorHandler = (err, req, res, next) => {
+  // Handle Multer errors
+  if (err.code === 'LIMIT_FILE_SIZE') {
+    return res.status(400).json({
+      status: 'fail',
+      message: 'Ukuran file terlalu besar. Maksimal 512KB',
+    });
+  }
+
   // Handle ClientError and its subclasses
   if (err instanceof ClientError) {
     return res.status(err.statusCode).json({

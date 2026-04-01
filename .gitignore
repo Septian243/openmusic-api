@@ -2,3 +2,5 @@ node_modules
 notes-api-web-server.pem
 .env
 .prod.env
+public/uploads/covers/*
+!public/uploads/covers/.gitkeep
